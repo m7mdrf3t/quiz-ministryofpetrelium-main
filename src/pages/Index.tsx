@@ -32,7 +32,7 @@ const Index = () => {
   }, [currentIndex, questions.length]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       {screen === "start" && <StartScreen onStart={handleStart} />}
       {screen === "quiz" && questions[currentIndex] && (
         <QuestionScreen
