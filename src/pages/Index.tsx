@@ -3,10 +3,12 @@ import { getRandomModel, shuffleArray, type Question } from "@/data/quizData";
 import StartScreen from "@/components/StartScreen";
 import QuestionScreen from "@/components/QuestionScreen";
 import EndScreen from "@/components/EndScreen";
+import { useFullscreen } from "@/hooks/useFullscreen";
 
 type Screen = "start" | "quiz" | "end";
 
 const Index = () => {
+  useFullscreen();
   const [screen, setScreen] = useState<Screen>("start");
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);

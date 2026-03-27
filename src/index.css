@@ -58,12 +58,13 @@
   }
 
   body {
-    @apply bg-background text-foreground font-cairo;
+    @apply text-foreground font-cairo;
     direction: rtl;
     background-image: url('/images/bg.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    background-color: #001a26;
   }
 }
 
