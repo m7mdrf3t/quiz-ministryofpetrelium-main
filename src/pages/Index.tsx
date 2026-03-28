@@ -22,6 +22,14 @@ const Index = () => {
     setScreen("quiz");
   }, []);
 
+  const handleRestart = useCallback(() => {
+    const model = getRandomModel();
+    setQuestions(shuffleArray(model.questions));
+    setCurrentIndex(0);
+    setScore(0);
+    setScreen("quiz");
+  }, []);
+
   const handleAnswer = useCallback((isCorrect: boolean) => {
     if (isCorrect) setScore((s) => s + 1);
     if (currentIndex + 1 >= questions.length) {
@@ -45,7 +53,7 @@ const Index = () => {
         />
       )}
       {screen === "end" && (
-        <EndScreen score={score} totalQuestions={questions.length} onRestart={handleStart} />
+        <EndScreen score={score} totalQuestions={questions.length} onRestart={handleRestart} />
       )}
     </div>
   );
