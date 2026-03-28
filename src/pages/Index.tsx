@@ -23,11 +23,7 @@ const Index = () => {
   }, []);
 
   const handleRestart = useCallback(() => {
-    const model = getRandomModel();
-    setQuestions(shuffleArray(model.questions));
-    setCurrentIndex(0);
-    setScore(0);
-    setScreen("quiz");
+    setScreen("start");
   }, []);
 
   const handleAnswer = useCallback((isCorrect: boolean) => {
