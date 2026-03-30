@@ -1,4 +1,5 @@
 import { Trophy, RotateCcw, Star } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface EndScreenProps {
   score: number;
@@ -7,6 +8,7 @@ interface EndScreenProps {
 }
 
 const EndScreen = ({ score, totalQuestions, onRestart }: EndScreenProps) => {
+  const { t } = useLanguage();
   const percentage = Math.round((score / totalQuestions) * 100);
   const isWinner = percentage > 60;
 
@@ -24,7 +26,7 @@ const EndScreen = ({ score, totalQuestions, onRestart }: EndScreenProps) => {
         </div>
 
         <h1 className="text-3xl md:text-4xl font-black mb-4 text-primary text-glow">
-          {resultMessage}
+          {isWinner ? t("winMessage") : t("loseMessage")}
         </h1>
 
         {/* Score circle */}
@@ -42,12 +44,12 @@ const EndScreen = ({ score, totalQuestions, onRestart }: EndScreenProps) => {
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <span className="text-4xl font-black text-primary">{score}</span>
-            <span className="text-sm text-muted-foreground">من {totalQuestions}</span>
+            <span className="text-sm text-muted-foreground">{t("from")} {totalQuestions}</span>
           </div>
         </div>
 
         <p className="text-2xl font-bold mb-10">
-          النتيجة: <span className="text-primary">{percentage}%</span>
+          {t("result")} <span className="text-primary">{percentage}%</span>
         </p>
 
         <button
@@ -58,7 +60,7 @@ const EndScreen = ({ score, totalQuestions, onRestart }: EndScreenProps) => {
                      active:scale-95 inline-flex items-center gap-3"
         >
           <RotateCcw className="w-5 h-5" />
-          العودة للبداية
+          {t("goBack")}
         </button>
       </div>
     </div>

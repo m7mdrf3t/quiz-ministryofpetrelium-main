@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Question } from "@/data/quizData";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface QuestionScreenProps {
   question: Question;
@@ -12,6 +13,8 @@ interface QuestionScreenProps {
 const QuestionScreen = ({ question, questionNumber, totalQuestions, score, onAnswer }: QuestionScreenProps) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [answered, setAnswered] = useState(false);
+  const { language } = useLanguage();
+  const questionLabels = language === "ar" ? ["أ", "ب", "ج"] : ["A", "B", "C"];
 
   const handleSelect = (index: number) => {
     if (answered) return;
@@ -43,11 +46,11 @@ const QuestionScreen = ({ question, questionNumber, totalQuestions, score, onAns
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <span className="text-sm text-muted-foreground font-semibold">
-          سؤال {questionNumber} / {totalQuestions}
+          {language === "ar" ? `سؤال ${questionNumber} / ${totalQuestions}` : `Question ${questionNumber} / ${totalQuestions}`}
         </span>
         <div className="flex items-center gap-2 bg-primary/15 px-4 py-2 rounded-full">
           <span className="text-primary font-bold text-lg">{score}</span>
-          <span className="text-primary/70 text-sm">نقطة</span>
+          <span className="text-primary/70 text-sm">{language === "ar" ? "نقطة" : "Points"}</span>
         </div>
       </div>
 
@@ -61,7 +64,9 @@ const QuestionScreen = ({ question, questionNumber, totalQuestions, score, onAns
 
       {/* Question */}
       <div className="flex-1 flex flex-col items-center justify-center max-w-2xl mx-auto w-full">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 leading-relaxed">
+        <h2 className={`text-2xl md:text-3xl font-bold mb-10 leading-relaxed ${
+          language === "ar" ? "text-center" : "text-center"
+        }`}>
           {question.question}
         </h2>
 
@@ -73,12 +78,12 @@ const QuestionScreen = ({ question, questionNumber, totalQuestions, score, onAns
               onClick={() => handleSelect(index)}
               disabled={answered}
               className={`w-full p-5 rounded-lg border-2 text-lg font-semibold 
-                         transition-all duration-300 text-right
+                         transition-all duration-300 ${language === "ar" ? "text-right" : "text-left"}
                          ${getOptionStyle(index)}
                          ${!answered ? "cursor-pointer active:scale-[0.98]" : "cursor-default"}`}
             >
-              <span className="text-muted-foreground/60 ml-3">
-                {["أ", "ب", "ج"][index]})
+              <span className={`text-muted-foreground/60 ${language === "ar" ? "ml-3" : "mr-3"}`}>
+                {questionLabels[index]})
               </span>
               {option}
             </button>

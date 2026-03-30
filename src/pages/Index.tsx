@@ -1,26 +1,29 @@
 import { useState, useCallback } from "react";
-import { getRandomModel, shuffleArray, type Question } from "@/data/quizData";
+import { getRandomModel, shuffleArray, getQuestionsInLanguage, type Question } from "@/data/quizData";
 import StartScreen from "@/components/StartScreen";
 import QuestionScreen from "@/components/QuestionScreen";
 import EndScreen from "@/components/EndScreen";
 import { useFullscreen } from "@/hooks/useFullscreen";
+import { useLanguage } from "@/context/LanguageContext";
 
 type Screen = "start" | "quiz" | "end";
 
 const Index = () => {
   useFullscreen();
+  const { language } = useLanguage();
   const [screen, setScreen] = useState<Screen>("start");
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
 
   const handleStart = useCallback(() => {
-    const model = getRandomModel();
-    setQuestions(shuffleArray(model.questions));
+    const model = getRandomModel(language);
+    const questionsInLanguage = getQuestionsInLanguage(model, language);
+    setQuestions(shuffleArray(questionsInLanguage));
     setCurrentIndex(0);
     setScore(0);
     setScreen("quiz");
-  }, []);
+  }, [language]);
 
   const handleRestart = useCallback(() => {
     setScreen("start");
@@ -36,7 +39,7 @@ const Index = () => {
   }, [currentIndex, questions.length]);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" dir={language === "ar" ? "rtl" : "ltr"}>
       {screen === "start" && <StartScreen onStart={handleStart} />}
       {screen === "quiz" && questions[currentIndex] && (
         <QuestionScreen
