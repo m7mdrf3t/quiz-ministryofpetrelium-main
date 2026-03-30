@@ -8,19 +8,15 @@ interface EndScreenProps {
 
 const EndScreen = ({ score, totalQuestions, onRestart }: EndScreenProps) => {
   const percentage = Math.round((score / totalQuestions) * 100);
+  const isWinner = percentage > 60;
 
-  const getMessage = () => {
-    if (percentage >= 90) return "ممتاز! أنت خبير بترول! 🏆";
-    if (percentage >= 70) return "أحسنت! أداء رائع! 🌟";
-    if (percentage >= 50) return "جيد! يمكنك التحسن أكثر 💪";
-    return "حاول مرة أخرى! 📚";
-  };
+  const resultMessage = isWinner ? "مبروك الفوز" : "حظ اوفر المرك القادمة";
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 animate-fade-in">
       <div className="text-center max-w-lg">
         <div className="mx-auto w-28 h-28 rounded-full bg-primary/20 flex items-center justify-center mb-8 animate-pulse-glow">
-          {percentage >= 70 ? (
+          {isWinner ? (
             <Trophy className="w-14 h-14 text-primary" />
           ) : (
             <Star className="w-14 h-14 text-primary" />
@@ -28,10 +24,8 @@ const EndScreen = ({ score, totalQuestions, onRestart }: EndScreenProps) => {
         </div>
 
         <h1 className="text-3xl md:text-4xl font-black mb-4 text-primary text-glow">
-          انتهت المسابقة!
+          {resultMessage}
         </h1>
-
-        <p className="text-xl text-muted-foreground mb-8">{getMessage()}</p>
 
         {/* Score circle */}
         <div className="relative mx-auto w-44 h-44 mb-8">
@@ -64,7 +58,7 @@ const EndScreen = ({ score, totalQuestions, onRestart }: EndScreenProps) => {
                      active:scale-95 inline-flex items-center gap-3"
         >
           <RotateCcw className="w-5 h-5" />
-          حاول مرة أخرى
+          العودة للبداية
         </button>
       </div>
     </div>
